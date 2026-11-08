@@ -2,6 +2,10 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHON = 'C:\\Users\\sabar\\AppData\\Local\\Python\\pythoncore-3.15-64\\python.exe'
+    }
+
     options {
         timestamps()
         skipDefaultCheckout(true)
@@ -18,9 +22,17 @@ pipeline {
 
         stage('Check Python') {
             steps {
+<<<<<<< HEAD
                 bat 'python --version'
                 bat 'python -m pip --version'
                 bat 'python -m venv .venv'
+=======
+                bat '''
+                    "%PYTHON%" --version
+                    "%PYTHON%" -m pip --version
+                    "%PYTHON%" -m venv .venv
+                '''
+>>>>>>> 7fa5b7c (Configure Python executable for Jenkins)
             }
         }
 
@@ -28,12 +40,16 @@ pipeline {
             steps {
                 bat '''
                     .venv\\Scripts\\python.exe -m pip install --upgrade pip
+<<<<<<< HEAD
 
                     if exist requirements.txt (
                         .venv\\Scripts\\python.exe -m pip install -r requirements.txt
                     ) else (
                         .venv\\Scripts\\python.exe -m pip install pytest selenium
                     )
+=======
+                    .venv\\Scripts\\python.exe -m pip install -r requirements.txt
+>>>>>>> 7fa5b7c (Configure Python executable for Jenkins)
                 '''
             }
         }
@@ -58,6 +74,7 @@ pipeline {
                     junit testResults: 'pytest-results.xml',
                           allowEmptyResults: true
                 } else {
+<<<<<<< HEAD
                     echo 'No Pytest XML report was generated.'
                 }
             }
@@ -66,14 +83,23 @@ pipeline {
                 artifacts: 'pytest-results.xml',
                 allowEmptyArchive: true
             )
+=======
+                    echo 'No test report generated.'
+                }
+            }
+>>>>>>> 7fa5b7c (Configure Python executable for Jenkins)
         }
 
         success {
-            echo 'Selenium tests completed successfully!'
+            echo 'Python Selenium pipeline completed!'
         }
 
         failure {
+<<<<<<< HEAD
             echo 'Build failed. Check Console Output.'
+=======
+            echo 'Pipeline failed. Check Console Output.'
+>>>>>>> 7fa5b7c (Configure Python executable for Jenkins)
         }
     }
 }
