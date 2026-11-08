@@ -12,27 +12,19 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
-                echo 'Downloading GitHub repository...'
                 checkout scm
             }
         }
 
         stage('Check Python') {
             steps {
-<<<<<<< HEAD
-                bat 'python --version'
-                bat 'python -m pip --version'
-                bat 'python -m venv .venv'
-=======
                 bat '''
                     "%PYTHON%" --version
                     "%PYTHON%" -m pip --version
                     "%PYTHON%" -m venv .venv
                 '''
->>>>>>> 7fa5b7c (Configure Python executable for Jenkins)
             }
         }
 
@@ -40,16 +32,7 @@ pipeline {
             steps {
                 bat '''
                     .venv\\Scripts\\python.exe -m pip install --upgrade pip
-<<<<<<< HEAD
-
-                    if exist requirements.txt (
-                        .venv\\Scripts\\python.exe -m pip install -r requirements.txt
-                    ) else (
-                        .venv\\Scripts\\python.exe -m pip install pytest selenium
-                    )
-=======
                     .venv\\Scripts\\python.exe -m pip install -r requirements.txt
->>>>>>> 7fa5b7c (Configure Python executable for Jenkins)
                 '''
             }
         }
@@ -74,20 +57,9 @@ pipeline {
                     junit testResults: 'pytest-results.xml',
                           allowEmptyResults: true
                 } else {
-<<<<<<< HEAD
-                    echo 'No Pytest XML report was generated.'
-                }
-            }
-
-            archiveArtifacts(
-                artifacts: 'pytest-results.xml',
-                allowEmptyArchive: true
-            )
-=======
                     echo 'No test report generated.'
                 }
             }
->>>>>>> 7fa5b7c (Configure Python executable for Jenkins)
         }
 
         success {
@@ -95,11 +67,7 @@ pipeline {
         }
 
         failure {
-<<<<<<< HEAD
-            echo 'Build failed. Check Console Output.'
-=======
             echo 'Pipeline failed. Check Console Output.'
->>>>>>> 7fa5b7c (Configure Python executable for Jenkins)
         }
     }
 }
